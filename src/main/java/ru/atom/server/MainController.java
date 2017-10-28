@@ -26,7 +26,7 @@ import ru.atom.hibernateentities.Reading;
 @Controller
 public class MainController {
     @RequestMapping(value = "/addBook", method = RequestMethod.POST,
-            consumes = "application/json")
+            consumes = "application/json", produces="application/json")
     @ResponseBody
     public ResponseEntity addBook(@RequestBody BookToCreate bookToCreate) {
         if (AuthorDao.getAuhtor(bookToCreate.getAuthorId()) == null ||
@@ -37,7 +37,7 @@ public class MainController {
         }
         Book book = BookToCreate.convertToHibernateBook(bookToCreate);
         BookDao.saveBook(book);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<Book>(book, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/addReader", method = RequestMethod.POST,
@@ -50,7 +50,7 @@ public class MainController {
         }
         Reader reader = ReaderToCreate.convertToHibernateReader(readerToCreate);
         ReaderDao.saveReader(reader);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<Reader>(reader, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/addAuthor", method = RequestMethod.POST,
@@ -63,7 +63,7 @@ public class MainController {
         }
         Author author = AuthorToCreate.convertToHibernateAuthor(authorToCreate);
         AuthorDao.saveAuthor(author);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<Author>(author, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/addReading", method = RequestMethod.POST,
@@ -76,6 +76,6 @@ public class MainController {
         }
         Reading reading = ReadingToCreate.convertToHibernateReading(readingToCreate);
         ReadingDao.saveReading(reading);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<Reading>(reading, HttpStatus.CREATED);
     }
 }
